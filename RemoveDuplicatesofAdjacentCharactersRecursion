@@ -1,0 +1,41 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Main {
+    static String removeDup(String s)
+    {
+        //We have to remove the duplicates of adjacent position of a given string
+        //recursively remove all the adjacent duplicates
+        int n = s.length();
+        //Create an empty string to build the result
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<n;i++)
+        {
+            boolean repeated= false;
+            while(i+1 < n && s.charAt(i) == s.charAt(i+1))
+            {
+                repeated= true;
+                i++;
+            }
+            //if no character is repeated then append the current character
+            if(!repeated)
+            {
+                sb.append(s.charAt(i));
+            }
+        }
+        //if no changes were made then return the entire string
+        if(n==sb.length())
+        {
+            return sb.toString();
+        }
+        //Otherwise recursively call the method to check for the other duplicates
+        return removeDup(sb.toString());
+        
+    }
+    public static void main(String[] args) {
+       // System.out.println("Hello Deepak Singh");
+       String s = "abccbccba";
+        String str =        removeDup(s);
+        System.out.println(str);
+    }
+}
