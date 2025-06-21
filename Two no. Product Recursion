@@ -1,0 +1,32 @@
+
+class Main {
+    public static int product(int x,int y) //5,1
+    {
+        if(x<y) //5<2
+        {
+            return product(y,x);
+        }
+        else if(y!=0)
+        {
+            return x + product(x,y-1); // 5 + (5,1)->
+                                       //      5+(5,0)-> 0
+                                       //5 +   5   +     0 = 10
+                                     
+                                      
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public static void main(String[] args) {
+        System.out.println("Try programiz.pro");
+        
+        
+        int x=5,y=2;
+        int result=product(x,y);
+        System.out.println(result);
+        
+        
+    }
+}
