@@ -1,0 +1,57 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+public class PostorderTraversalOneStack {
+    public static List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode current = root;
+        TreeNode lastVisited = null;
+
+        while (current != null || !stack.isEmpty()) {
+            // Go as left as possible
+            if (current != null) {
+                stack.push(current);
+                current = current.left;
+            } else {
+                TreeNode peekNode = stack.peek();
+                // If right child exists and traversal is not from right child
+                if (peekNode.right != null && lastVisited != peekNode.right) {
+                    current = peekNode.right;
+                } else {
+                    stack.pop();
+                    result.add(peekNode.val);
+                    lastVisited = peekNode;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    // Test the traversal
+    public static void main(String[] args) {
+        /*
+                 1
+                / \
+               2   3
+              / \
+             4   5
+        */
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+
+        List<Integer> result = postorderTraversal(root);
+        System.out.println("Postorder traversal: " + result);  // Output: [4, 5, 2, 3, 1]
+    }
+}
