@@ -1,0 +1,49 @@
+import java.util.Stack;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int x) {
+        val = x;
+    }
+}
+
+public class PreorderTraversalIterative {
+    public static void preorder(TreeNode root) {
+        if (root == null)
+            return;
+
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode curr = stack.pop();
+            System.out.print(curr.val + " ");  // Visit the node
+
+            // Push right first so left is processed first
+            if (curr.right != null)
+                stack.push(curr.right);
+
+            if (curr.left != null)
+                stack.push(curr.left);
+        }
+    }
+
+    // Sample tree: 
+    //        1
+    //       / \
+    //      2   3
+    //     / \
+    //    4   5
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+
+        System.out.println("Preorder traversal:");
+        preorder(root);  // Output: 1 2 4 5 3
+    }
+}
