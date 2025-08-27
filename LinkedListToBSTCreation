@@ -1,0 +1,72 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private ListNode current;
+    public TreeNode sortedListToBST(ListNode head) {
+
+        //One base case I am applying to Terminate the Recursion
+        //Develop the code using Top Down Recursion
+        if(head == null)
+        {
+            return null;
+        }
+        //Count the no. of nodes in the Linked List
+        int size = getCount(head);
+        current = head;
+        return createBST(0,size-1);
+    }
+
+    private int getCount(ListNode head)
+    {
+        int count =0;
+        while(head!=null)
+        {
+            count++;
+            head=head.next;
+        }
+        return count;
+    }
+
+    private TreeNode createBST(int start,int end)
+    {
+             if(start>end)
+             {
+                return null;
+             }
+             int mid = start + (end-start)/2;
+             //Follow InOrder Traversal by default 
+             TreeNode left = createBST(start,mid-1); 
+             TreeNode root = new TreeNode(current.val); // Top down recursive call to the left subtree
+             current=current.next;
+             TreeNode right = createBST(mid+1,end); // Top down recursive call to the right subtree
+             root.left=left;
+             root.right=right;
+             return root;
+
+    }
+}
+//Time Complexity o(n)*O(n)
+//Space Complexity o(logn)*O(logn)
