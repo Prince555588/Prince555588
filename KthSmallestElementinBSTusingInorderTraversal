@@ -1,0 +1,48 @@
+// Inorder Traversal Stack Kth smallest in the BST
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+ //Check whether it is valid BST OR Not
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        //Using Inorder Traversal of a Tree and Uses the property of BST
+        TreeNode current = root;
+        
+        Stack<TreeNode> st = new Stack<>();
+        while(current!=null || !st.isEmpty())
+        {
+            if(current!=null)
+            {
+                st.push(current);
+                current=current.left;
+            }
+            else
+            {        current=st.pop();
+                     k--;
+                     if(k==0)
+                     {
+                        return current.val;
+                     }
+                     current=current.right;
+            }
+            
+        }
+
+    return 0;
+    }
+    
+}
+//Time Complexity->O(n) no. of nodes
+//Space Complexity ->O(h) height of the tree
