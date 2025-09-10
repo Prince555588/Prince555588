@@ -1,0 +1,55 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        //there are n size array amd k size window fixed
+        //Total No. of Windows is ----->n-k+1
+        // int max=Integer.MIN_VALUE;
+        // int n=nums.length;
+        //  int[] arr = new int[n-k+1]; 
+       
+        // for(int i=0;i<n-k+1;i++)
+        // {
+        //     for(int j=i;j<i+k;j++)
+        //     {
+        //         max=Math.max(max,nums[j]);
+        //     }
+        //    arr[i]=max;
+        //    max=Integer.MIN_VALUE;;
+        // }
+        // return arr;
+        //Go with Optimization
+        //Using Deque To Optimized the code doubly ended Queue
+        if(nums == null || k<=0)
+        {
+            return new int[0];
+        }
+        int n= nums.length;
+        if(k==1)
+        {
+            return Arrays.copyOf(nums,n);
+        }
+        int totalWindows = n-k+1;
+        int[] result = new int[totalWindows];
+        Deque<Integer> dq= new ArrayDeque<>();
+        for(int i=0;i<n;i++)
+        {
+            while(!dq.isEmpty() && dq.peekFirst()<=i-k)
+            {
+                dq.pollFirst();
+            }
+            while(!dq.isEmpty() && nums[dq.peekLast()] <= nums[i])
+            {
+                dq.pollLast();
+            }
+            dq.offerLast(i);
+            // starting from i=k-1 we have a complete window
+            if(i>=k-1)
+            {
+                result[i-k+1]=nums[dq.peekFirst()];
+            }
+        }
+        return result;
+    }
+}
+//Time Complexity: O(n)
+//Space Complexity: O(n)
+//This solution is correct but need optimization because your code is not optimized
