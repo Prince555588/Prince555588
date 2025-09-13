@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int rob(TreeNode root) {
+       int res[]=dfs(root);
+       //res[0] max when robbing this node
+       //res[1] max when not robbing this node
+       return Math.max(res[0],res[1]);
+        
+    }
+    private int[] dfs(TreeNode root)
+    {
+           // apply the proper null check
+           //BFS we implement Using Stack Recursion Not Required
+           //DFS Top down Recursion Approach Always rember while applying the Recursion need the base case to terminate
+           if(root==null)
+           {
+            return new int[]{0,0};
+           }
+           int left[]=dfs(root.left);
+           int right[]=dfs(root.right);
+
+           //If we rob this node, we cannot rob its children 
+           int robThis=root.val+left[1]+right[1];
+           //If we do not rob this node,we can choose to rob or not the children
+           int notRobThis=Math.max(left[0],left[1])+Math.max(right[0],right[1]);
+           return new int[]{robThis,notRobthis};
+
+    }
+}
+//Time Complexity: O(n)
+//Space Complexity: O(n)
