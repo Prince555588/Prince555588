@@ -1,0 +1,33 @@
+public class KnapsackTopDown {
+    public static int knapSackTopDown(int[] wt, int[] val, int W) {
+        int n = wt.length;
+        int[][] memo = new int[n + 1][W + 1];
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= W; j++) memo[i][j] = -1;
+        }
+        return dfs(0, W, wt, val, memo);
+    }
+
+    private static int dfs(int i, int cap, int[] wt, int[] val, int[][] memo) {
+        if (i == wt.length || cap == 0) return 0;
+        if (memo[i][cap] != -1) return memo[i][cap];
+
+        // skip
+        int best = dfs(i + 1, cap, wt, val, memo);
+
+        // take
+        if (wt[i] <= cap) {
+            best = Math.max(best, val[i] + dfs(i + 1, cap - wt[i], wt, val, memo));
+        }
+        memo[i][cap] = best;
+        return best;
+    }
+
+    // quick test
+    public static void main(String[] args) {
+        int[] wt = {3, 2, 1};
+        int[] val = {5, 3, 2};
+        int capacity = 5;
+        System.out.println(knapSackTopDown(wt, val, capacity)); // prints 8
+    }
+}
