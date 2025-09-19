@@ -1,0 +1,33 @@
+import java.util.PriorityQueue;
+import java.util.Collections;
+
+public class KthSmallestElement {
+    public static int findKthSmallest(int[] nums, int k) {
+        // Max Heap (using Collections.reverseOrder)
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        
+        // Step 1: Insert first k elements
+        for (int i = 0; i < k; i++) {
+            maxHeap.add(nums[i]);
+        }
+        
+        // Step 2: Process remaining elements
+        for (int i = k; i < nums.length; i++) {
+            if (nums[i] < maxHeap.peek()) {
+                maxHeap.poll();     // remove largest
+                maxHeap.add(nums[i]); // add current element
+            }
+        }
+        
+        // Step 3: The root is kth smallest
+        return maxHeap.peek();
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {7, 10, 4, 3, 20, 15};
+        int k = 3;
+        System.out.println(k + "rd smallest element is: " + findKthSmallest(arr, k));
+    }
+// Time Complexity: O(n*logk)
+//Space complexity: O(k)
+}
