@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Main {
+  public void LevelOrderRecursion(Node root,int level;List<List<Integer>> res)
+  {
+    if(root == null)
+    {
+      return;
+    }
+    if(res.size()<=level)
+    {
+      res.add(new ArrayList<>());
+    }
+    res.get(level).add(root.data);
+    
+    //Traverse the level order of Left Child 
+    
+    LevelOrderRecursion(root.left,level+1,res);
+    //Traverse the level Order of the Right Child
+    LevelOrderRecursion(root.right,level+1,res);
+  }
+  public List<List<Integer>> LevelOrder(Node root)
+  {
+    List<List<Integer>> res = new ArrayList<>();
+    LevelOrderRecursion(root,0,res);
+    return res;
+  }
+    public static void main(String[] args) {
+      //Time Complexity O(n) and Space Complexity O(n)
+  }
+}
