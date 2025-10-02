@@ -1,0 +1,44 @@
+class Main {
+
+    private static int maxhouseLoot(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        if (nums.length == 1) return nums[0];
+        if (nums.length == 2) return Math.max(nums[0], nums[1]);
+
+        // Case 1: rob houses from index 0 to n-2 (exclude last)
+        int result1 = singleMaxLootHelper(nums, 0, nums.length - 2);
+
+        // Case 2: rob houses from index 1 to n-1 (exclude first)
+        int result2 = singleMaxLootHelper(nums, 1, nums.length - 1);
+
+        return Math.max(result1, result2);
+    }
+
+    // returns max loot for linear houses from index l to h inclusive
+    private static int singleMaxLootHelper(int[] nums, int l, int h) {
+        // handle small ranges explicitly to be robust
+        if (l == h) return nums[l];
+        if (h == l + 1) return Math.max(nums[l], nums[l + 1]);
+
+        // prev2 = loot until i-2, prev1 = loot until i-1
+        int prev2 = nums[l];
+        int prev1 = Math.max(nums[l], nums[l + 1]);
+        int curr = prev1;
+
+        for (int i = l + 2; i <= h; i++) {
+            curr = Math.max(prev1, prev2 + nums[i]); // either skip i or take i + best till i-2
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return curr;
+    }
+
+    public static void main(String[] args) {
+        int nums[] = {4, 7, 2, 5, 6, 9, 13};
+        System.out.println("Max Loot in the Circular House " + maxhouseLoot(nums));
+        // Expected: 26
+    }
+//Time Complexity: O(n)
+//Space complexity: O(1)
+}
