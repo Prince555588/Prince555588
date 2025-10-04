@@ -1,0 +1,37 @@
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+//Unique path Robots Two dimensional Matrix using DP
+class Main {
+    public static int uniquePathTwoDimensionalDP(int m,int n)
+    {
+        //This is bottom up Tabulation
+        int dp[][]= new int[m][n];
+        for(int i=0;i<m;i++)
+        {
+          for(int j=0;j<n;j++)
+          {
+          if(i==0 || j==0) // Base Case first rows & Column has only //one way
+            {
+            dp[i][j]=1; //Memoization to store the patterns
+            }
+           else
+           {
+               dp[i][j]=dp[i-1][j]+dp[i][j-1];
+           }
+          }
+          
+        }
+        //Return bottom-right corner
+        return dp[m-1][n-1];
+    }
+    public static void main(String[] args) {
+        //System.out.println("Try programiz.pro");
+        //Robots moving in the two dimensional Matrix
+        int m=3;
+        int n=7;
+        System.out.println("Unique Path is ----->"+uniquePathTwoDimensionalDP(m,n));
+       //Time Complexity: O(m*n)
+       //Space Complexity: O(m*n)
+    }
+}
