@@ -1,0 +1,54 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Main {
+    static int coinChange(int[] coins,int amount)
+    {
+        //Check edge cases & corner cases first
+        if(amount<0)
+        {
+            return 0;
+        }
+        //Create DP Array
+        int[] minCoinsDP = new int[amount+1];
+        for(int i=1;i<=amount;i++)
+        {
+            minCoinsDP[i]=Integer.MAX_VALUE;
+            //Try Each Coin
+            for(int coin:coins)
+            {
+                if(coin<=i && minCoinsDP[i-coin]!=Integer.MAX_VALUE)
+                {
+                    minCoinsDP[i]=Math.min(minCoinsDP[i],1+minCoinsDP[i-coin]);
+                }
+            }
+        }
+        if(minCoinsDP[amount]==Integer.MAX_VALUE)
+        {
+            return -1;
+        }
+        return minCoinsDP[amount];
+        //minCoinsDP[1]= 1 (1)
+        //minCoinsDP[2]= 1 (2)
+        //minCoinsDP[3]= 2 (2+1 or 1+1+1)
+        //minCoinsDP[4]= 2 (2+2)
+        //minCoinsDP[5]= 1 (5)
+        //minCoinsDP[6]= 2 (1+5)
+        //minCoinsDP[7]= 2 (2+5)
+        //minCoinsDP[8]= 3 (1+2+5)
+        //minCoinsDP[9]= 3 (2+2+5)
+        //minCoinsDP[10]= 2 (5+5)
+         //minCoinsDP[11]= 3 (1+5+5)
+         //Time Complexity: O(n*amount)
+         //Space Complexity: O(amount)
+    }
+    public static void main(String[] args) {
+        //System.out.println("Try programiz.pro");
+        //Coin Change Problem
+        //coins=[1,2,5]
+        int coins[]={1,2,5};
+        int amount=11;
+        //Just follow basic memoization 0/1 snapsack
+        System.out.println(coinChange(coins,amount));
+    }
+}
