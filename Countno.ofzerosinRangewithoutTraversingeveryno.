@@ -1,0 +1,43 @@
+import java.util.Scanner;
+
+public class CountZeros {
+
+    // Counts number of '0' digits in range [1..n]
+    public static long countZeros(long n) {
+        if (n <= 0) return 0;
+        long count = 0;
+        long place = 1; // 1, 10, 100, ...
+
+        while (place <= n) {
+            long higher = n / (place * 10);
+            long current = (n / place) % 10;
+            long lower = n % place;
+
+            if (current == 0) {
+                if (higher > 0) {
+                    // zeros contributed by this place, excluding leading zeros
+                    count += (higher - 1) * place + (lower + 1);
+                }
+                // if higher == 0 and current == 0 => leading zeros, contribute 0
+            } else {
+                count += higher * place;
+            }
+
+            // move to next digit place
+            if (place > Long.MAX_VALUE / 10) break; // safety for overflow
+            place *= 10;
+        }
+        return count;
+    }
+
+    // Simple demo / CLI
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter N: ");
+        long n = sc.nextLong();
+        System.out.println("Number of zeros from 1 to " + n + " = " + countZeros(n));
+        sc.close();
+    }
+}
+//Time complexity: O(log10n)
+//Space complexity: O(1)
