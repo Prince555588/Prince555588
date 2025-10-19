@@ -1,0 +1,68 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Main {
+    public static Pair lcs(String a,String b)
+    {
+        int m=a.length(), n=b.length();
+        int[][] dp=new int[m+1][n+1];
+        for(int i=1;i<=m;i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+                if(a.charAt(i-1)==b.charAt(j-1))
+                {
+                    dp[i][j]=1+dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        int i=m,j=n;
+        while(i>0 && j>0)
+        {
+            if(a.charAt(i-1) == b.charAt(j-1))
+            {
+                sb.append(a.charAt(i-1));
+                i--;
+                j--;
+            }
+            else if(dp[i-1][j]>=dp[i][j-1])
+            {
+                i--;
+            }
+            else
+            {
+                j--;
+            }
+        }
+        sb.reverse();
+        return new Pair(dp[m][n],sb.toString());
+    }
+    public static void main(String[] args) {
+        System.out.println("Try Dynamic Programming ---->Lowest Common Subsequence");
+        //using two dimensional DP 
+        //dp[m+1][n+1] m & n is the length of Strings S1 & S2
+        //Using Bottom Up Tabulation to store some patterns in the Cache 
+        //Let we have two given Strings and we have to find Lowest Common Subsequence.
+        //Time Complexity: O(m*n) & Space Complexity : O(m*n)
+        //required two nested loops dp[i][j]=1+dp[i-1][j-1]
+        //else dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+        String A="AGGTAB",B="GXTXAYB";
+        Pair res=lcs(A,B);
+        System.out.println("LCS length: "+res.len);
+        System.out.println("LCS Sequence: "+res.seq);
+    }
+    static class Pair
+    {
+        int len; String seq;
+        Pair(int l,String s)
+        {
+            len=l;
+            seq=s;
+        }
+    }
+}
