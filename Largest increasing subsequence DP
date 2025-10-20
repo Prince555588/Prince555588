@@ -1,0 +1,53 @@
+import java.util.*;
+
+public class LongestIncreasingSubsequence {
+    // Returns the LIS as a List<Integer>
+    public static List<Integer> lisDP(int[] arr) {
+        int n = arr.length;
+        if (n == 0) return new ArrayList<>();
+
+        int[] dp = new int[n];       // dp[i] = length of LIS ending at i
+        int[] prev = new int[n];     // prev[i] = index of previous element in LIS ending at i
+        Arrays.fill(dp, 1);
+        Arrays.fill(prev, -1);
+
+        // build dp and prev
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[j] < arr[i] && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
+                }
+            }
+        }
+
+        // find index of maximum dp value
+        int maxLen = dp[0], maxIdx = 0;
+        for (int i = 1; i < n; i++) {
+            if (dp[i] > maxLen) {
+                maxLen = dp[i];
+                maxIdx = i;
+            }
+        }
+
+        // reconstruct LIS by following prev[] backwards
+        LinkedList<Integer> lis = new LinkedList<>();
+        for (int cur = maxIdx; cur != -1; cur = prev[cur]) {
+            lis.addFirst(arr[cur]);
+        }
+
+        // For debugging / demonstration, print dp and prev arrays:
+        System.out.println("arr:   " + Arrays.toString(arr));
+        System.out.println("dp:    " + Arrays.toString(dp));
+        System.out.println("prev:  " + Arrays.toString(prev));
+        System.out.println("LIS length = " + maxLen);
+
+        return lis;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {10, 9, 2, 5, 3, 7, 101, 18};
+        List<Integer> lis = lisDP(arr);
+        System.out.println("LIS:   " + lis);
+    }
+}
