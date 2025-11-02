@@ -1,0 +1,32 @@
+import java.util.Arrays;
+
+public class TwoSumTwoPointer {
+    public static void main(String[] args) {
+        int[] arr = {2, 7, 11, 15, -2, 8};
+        int target = 9;
+        findTwoSum(arr, target);
+    }
+
+    static void findTwoSum(int[] arr, int target) {
+        Arrays.sort(arr);  // O(n log n)
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left < right) {  // single loop
+            int sum = arr[left] + arr[right];
+
+            if (sum == target) {
+                System.out.println("Pair found: (" + arr[left] + ", " + arr[right] + ")");
+                return;
+            } else if (sum < target) {
+                left++;  // need bigger sum
+            } else {
+                right--; // need smaller sum
+            }
+        }
+
+        System.out.println("No pair found");
+    }
+}
+time complexity O(nlogn)
+space complexity O(1)
