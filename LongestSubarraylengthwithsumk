@@ -1,0 +1,23 @@
+def longest_subarray_sum_k(arr, K):
+    first_index = {}   # prefix_sum -> first index seen
+    s = 0
+    max_len = 0
+
+    for i, val in enumerate(arr):
+        s += val
+
+        # case: subarray from 0..i
+        if s == K:
+            max_len = max(max_len, i + 1)
+
+        # case: subarray from (first_index[s-K] + 1) .. i
+        if (s - K) in first_index:
+            length = i - first_index[s - K]
+            if length > max_len:
+                max_len = length
+
+        # store first occurrence only
+        if s not in first_index:
+            first_index[s] = i
+
+    return max_len
